@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# This script displays numbers from 1 to 20 with special messages for certain numbers using a case statement
+i=1
+while [ "$i" -le 20 ]
+do
+  case "$i" in
+    4)
+      printf "%s\n%s\n" "$i" "bad luck from China"
+      ;;
+    9)
+      printf "%s\n%s\n" "$i" "bad luck from Japan"
+      ;;
+    17)
+      printf "%s\n%s\n" "$i" "bad luck from Italy"
+      ;;
+    *)
+      printf "%s\n" "$i"
+      ;;
+  esac
+  i=$((i+1))
+done
