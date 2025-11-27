@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script lists non-hidden files and prints the part after the first dash
+
+for file in *; do
+  # Skip if it’s a directory or file without a dash
+  if printf "%s" "$file" | grep -q "-"; then
+    printf "%s\n" "${file#*-}"
+  else
+    printf "%s\n" "$file"
+  fi
+done
