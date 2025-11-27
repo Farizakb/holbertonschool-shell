@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script prints Best School 10 times using a for loop and includes an if check
+for i in {1..10}
+do
+  if [ "$i" -ge 1 ]
+  then
+    printf "%s\n" "Best School"
+  fi
+done
