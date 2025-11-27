@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # This script prints "To infinity and beyond" indefinitely and handles signals.
 
-# Create the PID file in current directory
-echo $$ > ./myscript.pid
+PID_FILE="/var/run/myscript.pid"
+
+# Create PID file
+echo $$ | sudo tee $PID_FILE > /dev/null
 
 # Handle SIGTERM
 trap 'echo "I hate the kill command"' SIGTERM
@@ -11,7 +13,7 @@ trap 'echo "I hate the kill command"' SIGTERM
 trap 'echo "Y U no love me?!"' SIGINT
 
 # Handle SIGQUIT or SIGTERM for cleanup
-trap 'rm -f ./myscript.pid; exit' SIGQUIT SIGTERM
+trap 'sudo rm -f $PID_FILE; exit' SIGQUIT SIGTERM
 
 # Infinite loop
 while true; do
