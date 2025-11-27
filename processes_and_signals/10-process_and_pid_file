@@ -1,21 +1,31 @@
 #!/usr/bin/env bash
-# This script prints "To infinity and beyond" indefinitely and handles signals.
+# Displays "To infinity and beyond" indefinitely and handles signals
+# Creates a PID file in /var/run or current directory if /var/run not writable
 
 PID_FILE="/var/run/myscript.pid"
+if [ ! -w "/var/run" ]; then
+    PID_FILE="./myscript.pid"
+fi
 
-# Create PID file
-echo $$ | sudo tee $PID_FILE > /dev/null
+echo $$ > "$PID_FILE"
 
-# Handle SIGTERM
-trap 'echo "I hate the kill command"' SIGTERM
+term_handler() {
+    echo "I hate the kill command"
+}
 
-# Handle SIGINT (Ctrl+C)
-trap 'echo "Y U no love me?!"' SIGINT
+int_handler() {
+    echo "Y U no love me?!"
+}
 
-# Handle SIGQUIT or SIGTERM for cleanup
-trap 'sudo rm -f $PID_FILE; exit' SIGQUIT SIGTERM
+quit_handler() {
+    rm -f "$PID_FILE"
+    exit 0
+}
 
-# Infinite loop
+trap term_handler SIGTERM
+trap int_handler SIGINT
+trap quit_handler SIGQUIT SIGTERM
+
 while true; do
     echo "To infinity and beyond"
     sleep 2
