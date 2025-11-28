@@ -7,27 +7,30 @@ DAEMON="./manage_my_process"
 case "$1" in
     start)
         "$DAEMON" > /dev/null 2>&1 &
-        echo $! > "$PID_FILE"
+        printf "%s" "$!" > "$PID_FILE"
         printf "%s\n" "manage_my_process started"
         ;;
+
     stop)
         if [ -f "$PID_FILE" ]; then
-            PID="\$(cat "$PID_FILE")"
-            kill "\$PID" 2>/dev/null
+            PID=$(cat "$PID_FILE")
+            kill "$PID" 2>/dev/null || true
             rm -f "$PID_FILE"
         fi
         printf "%s\n" "manage_my_process stopped"
         ;;
+
     restart)
         if [ -f "$PID_FILE" ]; then
-            PID="\$(cat "$PID_FILE")"
-            kill "\$PID" 2>/dev/null
+            PID=$(cat "$PID_FILE")
+            kill "$PID" 2>/dev/null || true
             rm -f "$PID_FILE"
         fi
         "$DAEMON" > /dev/null 2>&1 &
-        echo $! > "$PID_FILE"
+        printf "%s" "$!" > "$PID_FILE"
         printf "%s\n" "manage_my_process restarted"
         ;;
+
     *)
         printf "%s\n" "Usage: manage_my_process {start|stop|restart}"
         ;;
