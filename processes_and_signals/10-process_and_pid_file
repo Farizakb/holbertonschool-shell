@@ -24,7 +24,7 @@ quit_handler() {
 
 trap term_handler SIGTERM
 trap int_handler SIGINT
-trap quit_handler SIGQUIT SIGTERM
+trap quit_handler SIGQUIT
 
 while true; do
     echo "To infinity and beyond"
